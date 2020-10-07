@@ -39,14 +39,13 @@ exports.deleteNode = (node, cluster) => {
     delete newCluster[node];
     for (const key in newCluster) {
         delete newCluster[key][node];
+        if (typeof newCluster[key] != "undefined" && Object.keys(newCluster[key]).length == 0) {
+            console.log("Cannot Delete Node "+node);
+            process.exit();
+            return false;
+        }
     }
-
-    if(helper.doBfs(newCluster)) {
-        return newCluster;
-    } else {
-        console.log("Cannot delete Node");
-        return cluster;
-    }
+    return newCluster;
 }
 
 /**
